@@ -54,6 +54,8 @@ function openMenu(player: alt.Player) {
 
     webview.show('TuningShop', 'page', false);
     webview.emit(tuningShopEvents.toWebview.sendVehicleMods, getVehicleMods(pVehicle));
+    player.emit(tuningShopEvents.toClient.handleCamera, false);
+
 }
 
 function previewMods(player: alt.Player, modData) {
@@ -72,6 +74,7 @@ function cancelMenu(player: alt.Player, originalMods) {
     });
 
     webview.hide('TuningShop');
+    player.emit(tuningShopEvents.toClient.handleCamera, true);
 }
 
 /* Credits to @koboling. for this function */
@@ -95,6 +98,7 @@ function saveVehicleMods(player: alt.Player, vehicleMods: { modType: number, mod
 
     document.set('mods', mods);
     webview.hide('TuningShop');
+    player.emit(tuningShopEvents.toClient.handleCamera, true);
 }
 
 alt.onClient(tuningShopEvents.toServer.previewMods, previewMods);

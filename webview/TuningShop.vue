@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { useEvents } from '@Composables/useEvents';
-import { ref, toRaw } from 'vue';
+import { onMounted, ref, toRaw } from 'vue';
 import { tuningShopEvents } from '../shared/events';
 
 const events = useEvents();
@@ -64,17 +64,46 @@ const saveAndCloseMenu = () => {
     events.emitServer(tuningShopEvents.toServer.saveMods, JSON.stringify(vehicleMods.value));
 };
 
+onMounted(async () => {
+    /* Class to not trigger the events */
+    const modsSection = document.querySelector('.mods-section');
+
+    /* Move Camera (Holding LMB) */
+    document.addEventListener("mousedown", (e) => {
+        if (!modsSection.contains(e.target as Node)) {
+            events.emitClient("CAMERA_MOVE_START");
+        }
+    });
+
+    document.addEventListener("mouseup", (e) => {
+        if (!modsSection.contains(e.target as Node)) {
+            events.emitClient("CAMERA_MOVE_END");
+        }
+    });
+
+    /* Zoom In & Out (Mousewheel) */
+    document.addEventListener("wheel", (e) => {
+        if (!modsSection.contains(e.target as Node)) {
+            if (e.deltaY < 0) {
+                events.emitClient("CAMERA_SCROLL_UP");
+            } else if (e.deltaY > 0) {
+                events.emitClient("CAMERA_SCROLL_DOWN");
+            }
+        }
+    });
+});
+
 </script>
 
 <template>
     <div class="flex h-screen w-screen overflow-hidden text-white">
         <div class="flex flex-col gap-3 p-3">
             <!-- Mods Section -->
-            <div class="flex max-h-full flex-col gap-3 rounded-lg bg-neutral-950 bg-opacity-70 p-3 pb-4 shadow-lg overflow-x-hidden overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500">
+            <div class="mods-section flex max-h-full flex-col gap-3 rounded-lg bg-neutral-950 bg-opacity-70 p-3 pb-4 shadow-lg overflow-x-hidden overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500 select-none">
                 <!-- Loop through each mod -->
                 <div v-for="(mod, index) in vehicleMods" :key="index" class="flex flex-col items-center outline outline-1 w-52 p-2 outline-slate-300 font-bold text-sm">
                     <!-- Display the mod -->
-                    <span class="text-slate-300">ModType: {{ mod.modSlotName }}</span>
+                    <span class="text-slate-300">{{ mod.modSlotName }}</span>
                     <div class="flex flex-row items-center justify-center p-2">
                         <!-- Decrease Button -->
                         <button @click="decreaseModValue(mod)" class="bg-transperent text-slate-300 font-bold py-1 px-2">

@@ -6,6 +6,7 @@ export const tuningShopEvents = {
     },
     toClient: {
         sendMods: 'tuning:shop:send:mod:info',
+        handleCamera: 'tuning:shop:handle:camera',
     },
     toWebview: {
         sendVehicleMods: 'tuning:shop:send:vehicle:mods',
