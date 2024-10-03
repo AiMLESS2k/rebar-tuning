@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useEvents } from '../../../../webview/composables/useEvents';
+import { useEvents } from '@Composables/useEvents';
 import { ref, toRaw } from 'vue';
 import { tuningShopEvents } from '../shared/events';
 
