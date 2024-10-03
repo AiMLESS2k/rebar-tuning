@@ -5,38 +5,28 @@ import { useMessenger } from '@Server/systems/messenger.js';
 import { modSlotNames, VehicleModData } from './src/VehicleModData.js';
 import { tuningShopEvents } from '../shared/events.js';
 import { BlipColor } from '@Shared/types/blip.js';
+import shopLocations from '../shared/locations.js';
 
 const Rebar = useRebar();
 const Messenger = useMessenger();
 
-const blipPos = new alt.Vector3(-335.7363, -137.3934, 38.3619);
-const tuningCol = Rebar.controllers.useInteraction(new alt.ColshapeCircle(-335.7363, -137.3934, 5), 'vehicle');
+for (let i = 0; i < shopLocations.length; i++) {
+    const locations = shopLocations[i];
 
-const tuningBlip = Rebar.controllers.useBlipGlobal({
-    pos: blipPos,
-    color: BlipColor.DARK_PURPLE,
-    sprite: 446,
-    shortRange: false,
-    text: 'Tuning Shop',
-    scale: 1,
-  });
+    const tuningCol = Rebar.controllers.useInteraction(new alt.ColshapeCircle(locations.x, locations.y, 4), 'vehicle');
 
-tuningCol.on(openMenu);
-tuningCol.setMessage('enter', `Press 'E' to open shop`);
-
-Messenger.commands.register({
-    name: 'setmodkit',
-    desc: 'Sets Vehicle Modkit to 1',
-    callback: (player: alt.Player) => {
-        const pVehicle = player.vehicle;
-
-        if (!pVehicle) {
-            alt.log(`Player is not in vehicle`);
-        }
-
-        pVehicle.modKit = 1;
-    },
-});
+    const tuningBlip = Rebar.controllers.useBlipGlobal({
+        pos: locations,
+        color: BlipColor.DARK_PURPLE,
+        sprite: 446,
+        shortRange: true,
+        text: 'Los Santos Customs',
+        scale: 0.8,
+    });
+    
+    tuningCol.on(openMenu);
+    tuningCol.setMessage('enter', `Press 'E' to open shop`);
+}
 
 function getVehicleMods(vehicle: alt.Vehicle): VehicleModData[] {
     const vehicleMods: VehicleModData[] = [];
@@ -84,6 +74,7 @@ function cancelMenu(player: alt.Player, originalMods) {
     webview.hide('TuningShop');
 }
 
+/* Credits to @koboling. for this function */
 function saveVehicleMods(player: alt.Player, vehicleMods: { modType: number, modValue: number }[]) {
     const pVehicle = player.vehicle;
     const document = Rebar.document.vehicle.useVehicle(pVehicle);
