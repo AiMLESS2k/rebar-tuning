@@ -93,11 +93,11 @@ const saveAndCloseMenu = () => {
                     </div>
                 </div>
             </div>
-            <div class="flex flex-row items-center w-full">
+            <div class="flex flex-row gap-3 rounded-lg bg-neutral-950 bg-opacity-70 p-4 shadow-lg overflow-hidden items-center">
                 <!-- Cancel button -->
-                <button @click="cancelMenu" type="button" class="w-1/2 text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-bold rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900">Cancel</button>
+                <button @click="cancelMenu" type="button" class="w-1/2 text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-bold rounded-lg text-sm px-5 py-1.5 text-center dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900">Cancel</button>
                 <!-- Save Button -->
-                <button @click="saveAndCloseMenu" type="button" class="w-1/2 text-green-700 hover:text-white border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-bold rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:hover:bg-green-600 dark:focus:ring-green-800">Save</button>
+                <button @click="saveAndCloseMenu" type="button" class="w-1/2 text-green-700 hover:text-white border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-bold rounded-lg text-sm px-5 py-1.5 text-center dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:hover:bg-green-600 dark:focus:ring-green-800">Save</button>
             </div>
         </div>
     </div>
