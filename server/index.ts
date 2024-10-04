@@ -17,7 +17,7 @@ for (let i = 0; i < shopLocations.length; i++) {
 
     const tuningBlip = Rebar.controllers.useBlipGlobal({
         pos: locations,
-        color: BlipColor.DARK_PURPLE,
+        color: BlipColor.YELLOW,
         sprite: 446,
         shortRange: true,
         text: 'Los Santos Customs',
