@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { useEvents } from '@Composables/useEvents';
-import { onMounted, ref, toRaw } from 'vue';
+import { onMounted, onUnmounted, ref, toRaw } from 'vue';
 import { tuningShopEvents } from '../shared/events';
 
 const events = useEvents();
@@ -91,6 +91,12 @@ onMounted(async () => {
             }
         }
     });
+});
+
+onUnmounted(() => {
+    document.removeEventListener("mousedown", (e) => {});
+    document.removeEventListener("mouseup", (e) => {});
+    document.removeEventListener("wheel", (e) => {});
 });
 
 </script>
